@@ -1,5 +1,6 @@
 package com.example.woofapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.woof.data.Dog
 import com.example.woof.data.dogs
-import com.example.woof.ui.theme.WoofTheme
+import com.example.woofapp.ui.theme.WoofTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +47,7 @@ class MainActivity : ComponentActivity() {
 /**
  * Composable that displays an app bar and a list of dogs.
  */
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun WoofApp() {
     Scaffold(
@@ -61,12 +63,6 @@ fun WoofApp() {
     }
 }
 
-/**
- * Composable that displays a list item containing a dog icon and their information.
- *
- * @param dog contains the data that populates the list item
- * @param modifier modifiers to set to this composable
- */
 @Composable
 fun DogItem(dog: Dog, modifier: Modifier = Modifier) {
     Card(
@@ -84,11 +80,6 @@ fun DogItem(dog: Dog, modifier: Modifier = Modifier) {
     }
 }
 
-/**
- * Composable that displays a Top Bar with an icon and text.
- *
- * @param modifier modifiers to set to this composable
- */
 @Composable
 fun WoofTopAppBar(modifier: Modifier = Modifier) {
     Row(
@@ -102,11 +93,6 @@ fun WoofTopAppBar(modifier: Modifier = Modifier) {
                 .size(64.dp)
                 .padding(8.dp),
             painter = painterResource(R.drawable.ic_woof_logo),
-            /*
-             * Content Description is not needed here - image is decorative, and setting a null
-             * content description allows accessibility services to skip this element during
-             * navigation.
-             */
             contentDescription = null
         )
         Text(
@@ -116,12 +102,6 @@ fun WoofTopAppBar(modifier: Modifier = Modifier) {
     }
 }
 
-/**
- * Composable that displays a photo of a dog.
- *
- * @param dogIcon is the resource ID for the image of the dog
- * @param modifier modifiers to set to this composable
- */
 @Composable
 fun DogIcon(@DrawableRes dogIcon: Int, modifier: Modifier = Modifier) {
     Image(
@@ -131,10 +111,6 @@ fun DogIcon(@DrawableRes dogIcon: Int, modifier: Modifier = Modifier) {
             .clip(RoundedCornerShape(50)),
         contentScale = ContentScale.Crop,
         painter = painterResource(dogIcon),
-        /*
-         * Content Description is not needed here - image is decorative, and setting a null content
-         * description allows accessibility services to skip this element during navigation.
-         */
         contentDescription = null
     )
 }
