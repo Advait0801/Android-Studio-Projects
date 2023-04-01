@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.woofapp'
+    namespace 'com.example.superheroes'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.woofapp"
+        applicationId "com.example.superheroes"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -60,5 +60,4 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
-    implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 }
