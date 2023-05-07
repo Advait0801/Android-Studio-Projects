@@ -41,6 +41,7 @@ import com.example.reply.R
 import com.example.reply.data.Email
 import com.example.reply.data.MailboxType
 import com.example.reply.data.local.LocalAccountsDataProvider
+import com.example.reply.ui.utils.ReplyContentType
 import com.example.reply.ui.utils.ReplyNavigationType
 
 /**
@@ -50,6 +51,7 @@ import com.example.reply.ui.utils.ReplyNavigationType
 @Composable
 fun ReplyHomeScreen(
     navigationType: ReplyNavigationType,
+    contentType: ReplyContentType,
     replyUiState: ReplyUiState,
     onTabPressed: (MailboxType) -> Unit,
     onEmailCardPressed: (Email) -> Unit,
@@ -78,8 +80,7 @@ fun ReplyHomeScreen(
             text = stringResource(id = R.string.tab_spam)
         )
     )
-    if (navigationType == ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER
-        && replyUiState.isShowingHomepage) {
+    if (navigationType == ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER) {
         PermanentNavigationDrawer(
             drawerContent = {
                 PermanentDrawerSheet(Modifier.width(240.dp)) {
@@ -93,6 +94,7 @@ fun ReplyHomeScreen(
         ) {
             ReplyAppContent(
                 navigationType = navigationType,
+                contentType = contentType,
                 replyUiState = replyUiState,
                 onTabPressed = onTabPressed,
                 onEmailCardPressed = onEmailCardPressed,
@@ -104,6 +106,7 @@ fun ReplyHomeScreen(
         if (replyUiState.isShowingHomepage) {
             ReplyAppContent(
                 navigationType = navigationType,
+                contentType = contentType,
                 replyUiState = replyUiState,
                 onTabPressed = onTabPressed,
                 onEmailCardPressed = onEmailCardPressed,
@@ -114,7 +117,8 @@ fun ReplyHomeScreen(
             ReplyDetailsScreen(
                 replyUiState = replyUiState,
                 onBackPressed = onDetailScreenBackPressed,
-                modifier = modifier
+                modifier = modifier,
+                isFullScreen = true
             )
         }
     }
@@ -126,6 +130,7 @@ fun ReplyHomeScreen(
 @Composable
 private fun ReplyAppContent(
     navigationType: ReplyNavigationType,
+    contentType: ReplyContentType,
     replyUiState: ReplyUiState,
     onTabPressed: ((MailboxType) -> Unit),
     onEmailCardPressed: (Email) -> Unit,
@@ -145,11 +150,19 @@ private fun ReplyAppContent(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.inverseOnSurface)
         ) {
-            ReplyListOnlyContent(
-                replyUiState = replyUiState,
-                onEmailCardPressed = onEmailCardPressed,
-                modifier = Modifier.weight(1f)
-            )
+            if (contentType == ReplyContentType.LIST_AND_DETAIL) {
+                ReplyListAndDetailContent(
+                    replyUiState = replyUiState,
+                    onEmailCardPressed = onEmailCardPressed,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            else{
+                ReplyListOnlyContent(
+                    replyUiState = replyUiState,
+                    onEmailCardPressed = onEmailCardPressed
+                )
+            }
             AnimatedVisibility(visible = navigationType == ReplyNavigationType.BOTTOM_NAVIGATION) {
                 ReplyBottomNavigationBar(
                     currentTab = replyUiState.currentMailbox,
